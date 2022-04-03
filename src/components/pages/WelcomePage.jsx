@@ -4,7 +4,7 @@ import classes from "./Welcome.module.css";
 import SignUpForm from "../auth/SignUpForm";
 import LoginForm from "../auth/LoginForm";
 
-function WelcomePage(props) {
+function WelcomePage() {
     const [isFirstTime, setIsFirstTime] = useState(true);
 
     function changeFromHandler(event) {

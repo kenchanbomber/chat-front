@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignUpForm() {
+    const navigate = useNavigate();
     const [error, setError] = useState("");
     const nameInputRef = useRef();
     const emailInputRef = useRef();
@@ -38,6 +40,7 @@ function SignUpForm() {
                 throw new Error("正しい値を入力してください。");
             }
             setError("");
+            navigate("chatroom");
         } catch (e) {
             const errorMessage = e.message;
             setError(errorMessage);

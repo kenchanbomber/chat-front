@@ -1,15 +1,16 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
     const [error, setError] = useState("");
     const inputEmailRef = useRef();
     const inputPasswordRef = useRef();
+    const navigate = useNavigate();
 
     async function buttonSubmitHandler(e) {
         e.preventDefault();
         const emailValue = inputEmailRef.current.value;
         const passwordValue = inputPasswordRef.current.value;
-
         let res;
         try {
             // send request...
@@ -30,6 +31,7 @@ function LoginForm() {
                 throw new Error("メールアドレスやパスワードが違います。");
             }
             setError("");
+            navigate("chatroom");
         } catch (e) {
             const errorMessage = e.message;
             setError(errorMessage);
