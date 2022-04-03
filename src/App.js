@@ -1,5 +1,11 @@
+import WelcomePage from "./components/pages/Welcome";
+
 function App() {
-    return <div>ようこそ！</div>;
+    return (
+        <>
+            <WelcomePage />
+        </>
+    );
 }
 
 export default App;
