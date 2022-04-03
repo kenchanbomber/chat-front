@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import storeAuthData from "../../utils/storeAuthData";
+
 function SignUpForm() {
     const navigate = useNavigate();
     const [error, setError] = useState("");
@@ -18,10 +20,9 @@ function SignUpForm() {
             passwordConfirmationInputRef.current.value;
 
         // send request...
-        let res;
         try {
             // send request...
-            res = await fetch("http://localhost:3001/auth", {
+            const res = await fetch("http://localhost:3001/auth", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -33,22 +34,23 @@ function SignUpForm() {
                     password_confirmation: passwordConfirmationValue,
                 }),
             });
-            if (!res) {
-                throw new Error("リクエストの送信に失敗しました。");
-            }
+
             if (!res.ok) {
                 throw new Error("正しい値を入力してください。");
             }
+
             setError("");
+            const data = await res.json();
+
+            // store data
+            storeAuthData(res.headers, data);
+
             navigate("chatroom");
         } catch (e) {
             const errorMessage = e.message;
             setError(errorMessage);
             console.log(errorMessage);
         }
-
-        const data = await res.json();
-        console.log(data);
     }
     return (
         <div>

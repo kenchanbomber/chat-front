@@ -15,7 +15,6 @@ function WelcomePage() {
         <div className={classes.welcome + " container"}>
             <p>ようこそ！</p>
             {isFirstTime ? <SignUpForm /> : <LoginForm />}
-
             <p className={classes["change-form"]}>
                 {isFirstTime ? (
                     <>

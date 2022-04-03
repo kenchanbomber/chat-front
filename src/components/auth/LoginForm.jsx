@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import storeAuthData from "../../utils/storeAuthData";
+
 function LoginForm() {
     const [error, setError] = useState("");
     const inputEmailRef = useRef();
@@ -11,10 +13,9 @@ function LoginForm() {
         e.preventDefault();
         const emailValue = inputEmailRef.current.value;
         const passwordValue = inputPasswordRef.current.value;
-        let res;
         try {
             // send request...
-            res = await fetch("http://localhost:3001/auth/sign_in", {
+            const res = await fetch("http://localhost:3001/auth/sign_in", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -24,22 +25,22 @@ function LoginForm() {
                     password: passwordValue,
                 }),
             });
-            if (!res) {
-                throw new Error("リクエストの送信に失敗しました。");
-            }
+
             if (!res.ok) {
                 throw new Error("メールアドレスやパスワードが違います。");
             }
+
             setError("");
+            const data = await res.json();
+
+            storeAuthData(res.headers, data);
+
             navigate("chatroom");
         } catch (e) {
             const errorMessage = e.message;
             setError(errorMessage);
             console.log(errorMessage);
         }
-
-        const data = await res.json();
-        console.log(data);
     }
     return (
         <div>
